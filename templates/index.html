@@ -101,6 +101,7 @@
 
 				const orderedFilesInput = document.getElementById("ordered_files");
 
+				// Display number of files uploaded
 				var countDisplay = document.getElementById("file-count");
 				var files = fileInput.files;
 				if (files.length === 0) {
@@ -112,6 +113,7 @@
 				}
 				fileOrderList.innerHTML = "";
 
+				// Only show bottom section if files have been uploaded
 				if (fileInput.files.length > 0) {
 					fileOrderContainer.classList.remove("hidden");
 					mergeButton.classList.remove("hidden");
@@ -122,6 +124,7 @@
 					clearButton.classList.add("hidden");
 				}
 
+				// Add delete button for each file
 				for (let i = 0; i < fileInput.files.length; i++) {
 					const li = document.createElement("li");
 					li.textContent = fileInput.files[i].name;
@@ -145,13 +148,6 @@
 						updateOrderedFilesInput();
 					},
 				});
-
-				const orderedFiles = Array.from(
-					document.querySelectorAll("#file_order li")
-				)
-					.map((li) => li.getAttribute("data-file"))
-					.join("|||");
-				document.getElementById("ordered_files").value = orderedFiles;
 
 				updateOrderedFilesInput();
 			}
