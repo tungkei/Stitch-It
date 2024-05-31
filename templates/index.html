@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>STITCH IT!</title>
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="{{ url_for('static', filename='style.css') }}"
+		/>
+	</head>
+	<body>
+		<h1>STITCH IT!</h1>
+		<p id="caption" style="font-size: 20px; font-style: italic">
+			Seamless Merging, Limitless Possibilities
+		</p>
+
+		<form method="post" enctype="multipart/form-data" id="upload-form">
+			<div class="top-container">
+				<label for="applicant_name">Applicant Name:</label>
+				<input
+					type="text"
+					id="applicant_name"
+					name="applicant_name"
+					placeholder="Enter Applicant Name"
+					onchange="clearFlashMessages()"
+				/><br /><br />
+
+				<div class="upload_container">
+					<label for="uploaded_files">Upload Files:</label>
+					<div class="file-upload">
+						<label
+							for="uploaded_files"
+							class="custom-file-upload"
+							id="file-upload-label"
+						>
+							Choose Files
+						</label>
+						<input
+							type="file"
+							id="uploaded_files"
+							name="uploaded_files"
+							multiple
+							accept=".png,.jpg,.jpeg,.docx,.pdf"
+							onchange="updateFileList()"
+						/>
+					</div>
+					<div id="file-count"></div>
+				</div>
+			</div>
+
+			<br /><br />
+			<div class="bottom-container">
+				<div id="file_order_container" class="hidden">
+					<label for="file_order">Order of Files:</label>
+				</div>
+				<div class="ordered_files_container">
+					<ul id="file_order" class="file-list"></ul>
+				</div>
+				<input
+					type="hidden"
+					name="ordered_files"
+					id="ordered_files"
+				/><br /><br />
+
+				<div id="button-container">
+					<button
+						id="merge_button"
+						class="submit_button hidden"
+						type="button"
+						onclick="handleMerge()"
+					>
+						Merge Files
+					</button>
+					<button
+						id="clear_button"
+						class="submit_button hidden"
+						type="reset"
+						onclick="resetPage()"
+					>
+						Clear All
+					</button>
+				</div>
+			</div>
+			<!-- <div id="file_order_container" class="hidden">
+					<label
+						for="file_order"
+						style="display: flex; flex-direction: column; align-items: center"
+						>Order of Files:</label
+					>
+					<div class="ordered_files_container">
+						<ul id="file_order" class="file-list"></ul>
+					</div>
+					<input
+						type="hidden"
+						name="ordered_files"
+						id="ordered_files"
+					/><br /><br />
+
+					<div id="button-container">
+						<button class="submit_button" type="button" onclick="handleMerge()">
+							Merge Files
+						</button>
+						<button class="submit_button" type="reset" onclick="resetPage()">
+							Clear All
+						</button>
+					</div>
+				</div> -->
+		</form>
+		{% with messages = get_flashed_messages() %} {% if messages %} {% for
+		message in messages %}
+		<p id="flash-messages">{{ message }}</p>
+		{% endfor %} {% endif %} {% endwith %}
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+		<script>
+			function updateFileList() {
+				const fileInput = document.getElementById("uploaded_files");
+				const fileOrderList = document.getElementById("file_order");
+				const fileOrderContainer = document.getElementById(
+					"file_order_container"
+				);
+				const mergeButton = document.getElementById("merge_button");
+				const clearButton = document.getElementById("clear_button");
+
+				const orderedFilesInput = document.getElementById("ordered_files");
+
+				var countDisplay = document.getElementById("file-count");
+				var files = fileInput.files;
+				if (files.length === 0) {
+					countDisplay.textContent = "";
+				} else {
+					var outputText =
+						files.length === 1 ? " file chosen" : " files chosen";
+					countDisplay.textContent = files.length + outputText;
+				}
+				fileOrderList.innerHTML = "";
+
+				if (fileInput.files.length > 0) {
+					fileOrderContainer.classList.remove("hidden");
+					mergeButton.classList.remove("hidden");
+					clearButton.classList.remove("hidden");
+				} else {
+					fileOrderContainer.classList.add("hidden");
+					mergeButton.classList.add("hidden");
+					clearButton.classList.add("hidden");
+				}
+
+				for (let i = 0; i < fileInput.files.length; i++) {
+					const li = document.createElement("li");
+					li.textContent = fileInput.files[i].name;
+
+					const deleteBtn = document.createElement("button");
+					deleteBtn.textContent = "X";
+					deleteBtn.classList.add("delete-btn");
+					deleteBtn.onclick = function () {
+						fileInput.files = removeFileFromFileList(fileInput.files, i);
+						li.remove();
+						updateOrderedFilesInput();
+					};
+
+					li.appendChild(deleteBtn);
+					li.setAttribute("data-file", fileInput.files[i].name);
+					fileOrderList.appendChild(li);
+				}
+
+				Sortable.create(fileOrderList, {
+					onEnd: function () {
+						updateOrderedFilesInput();
+					},
+				});
+
+				// for problem of having commas in file names
+				const orderedFiles = Array.from(
+					document.querySelectorAll("#file_order li")
+				)
+					.map((li) => li.getAttribute("data-file"))
+					.join("|||");
+				document.getElementById("ordered_files").value = orderedFiles;
+
+				updateOrderedFilesInput();
+			}
+
+			function removeFileFromFileList(fileList, index) {
+				const dt = new DataTransfer();
+				for (let i = 0; i < fileList.length; i++) {
+					if (i !== index) {
+						dt.items.add(fileList[i]);
+					}
+				}
+				updateFileList();
+				return dt.files;
+			}
+
+			function updateOrderedFilesInput() {
+				const fileOrderList = document.getElementById("file_order");
+				const orderedFilesInput = document.getElementById("ordered_files");
+				const orderedFiles = [];
+				for (let i = 0; i < fileOrderList.children.length; i++) {
+					orderedFiles.push(
+						fileOrderList.children[i].getAttribute("data-file")
+					);
+				}
+				orderedFilesInput.value = orderedFiles.join("|||");
+			}
+
+			function handleMerge() {
+				const applicantName = document.getElementById("applicant_name").value;
+				const fileInput = document.getElementById("uploaded_files");
+
+				if (!applicantName) {
+					alert("Please provide the applicant's name.");
+					return;
+				}
+
+				if (fileInput.files.length === 0) {
+					alert("Please upload at least one file.");
+					return;
+				}
+
+				document.getElementById("upload-form").submit();
+			}
+
+			function clearFlashMessages() {
+				const flashMessages = document.getElementById("flash-messages");
+				if (flashMessages) {
+					flashMessages.remove();
+				}
+			}
+
+			function resetPage() {
+				window.location.reload();
+				// const fileOrderContainer = document.getElementById(
+				// 	"file_order_container"
+				// );
+				// fileOrderContainer.classList.add("hidden");
+				// document.getElementById("file_order").innerHTML = "";
+				// document.getElementById("ordered_files").value = "";
+				// clearFlashMessages();
+				// updateFileList();
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,144 @@
+body {
+	margin: 0;
+	padding: 0;
+	display: flex;
+	/* justify-content: center; Horizontally center the container */
+	align-items: center; /* Vertically center the container */
+	flex-direction: column;
+	/* width: 50vw; */
+	/* background-color: peachpuff; */
+	margin: 20px;
+	padding: 40px 20px; /* Optional: padding inside the container */
+	display: flex;
+	align-items: center; /* Vertically center the container */
+	flex-direction: column;
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+h1 {
+	margin: 5px;
+}
+#caption {
+	margin: 0;
+}
+
+#applicant_name {
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	/* background-color: aquamarine; */
+	margin: 0 10px;
+	padding: 5px;
+	border-radius: 4px;
+	border: 1px solid darkslategrey;
+}
+.bottom_container {
+	width: 100%;
+}
+#upload-form {
+	margin: 40px;
+	margin-bottom: 20px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+#file_order_container.hidden {
+	display: none;
+}
+#file_order_container {
+	width: 500px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	/* background-color: cornflowerblue; */
+}
+/* Hide the default file input button */
+.file-upload input[type="file"] {
+	display: none;
+}
+
+.file-upload {
+	margin: 0 10px;
+}
+
+#file-upload-label {
+	font-size: smaller;
+}
+#file-count {
+	font-size: smaller;
+}
+
+.upload_container {
+	display: flex;
+	align-items: center;
+}
+/* Style the custom button */
+.custom-file-upload {
+	border: 1px solid #ccc;
+	display: inline-block;
+	padding: 5px 10px;
+	cursor: pointer;
+	background-color: #f0f0f0;
+	border-radius: 4px;
+}
+
+.custom-file-upload:hover {
+	background-color: #e0e0e0;
+}
+#file_order {
+	padding: 0 5px;
+}
+
+.file-list li {
+	margin: 5px 0;
+	padding: 10px;
+	background-color: lightblue;
+	cursor: move;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	overflow: hidden;
+	border-radius: 4px;
+}
+
+.file-name {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	margin-right: 10px;
+}
+
+.delete-button {
+	display: inline-block;
+	color: white;
+	border: none;
+	padding: 5px 10px;
+	cursor: pointer;
+	border-radius: 4px;
+	vertical-align: middle;
+}
+
+#button-container {
+	display: flex;
+	width: 100%;
+	box-sizing: border-box;
+	justify-content: space-around;
+	/* background-color: yellowgreen; */
+}
+.submit_button {
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	font-size: 15px;
+	padding: 5px 10px;
+	border: 1px solid #ccc;
+	cursor: pointer;
+	background-color: #f0f0f0;
+	border-radius: 4px;
+	margin: 0 5px;
+}
+.submit_button:hover {
+	background-color: #e0e0e0;
+}
+
+.hidden {
+	display: none;
+}
