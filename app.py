@@ -26,9 +26,9 @@ def process_files(uploaded_files):
             file_pdf_bytesio = resize_pdf(BytesIO(file_bytes))
             merged_pdf.append(file_pdf_bytesio)
         elif file_extension == "":
-            raise ValueError("No Uploaded Files Found.")
+            raise ValueError("No uploaded files found.")
         else:
-            raise ValueError("Unsupported File Type, File Type: " + file_extension)
+            raise ValueError("Unsupported file type for the following file: " + file_extension)
 
     merged_pdf_bytesio = BytesIO()
     merged_pdf.write(merged_pdf_bytesio)

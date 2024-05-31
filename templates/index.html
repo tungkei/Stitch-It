@@ -83,30 +83,6 @@
 					</button>
 				</div>
 			</div>
-			<!-- <div id="file_order_container" class="hidden">
-					<label
-						for="file_order"
-						style="display: flex; flex-direction: column; align-items: center"
-						>Order of Files:</label
-					>
-					<div class="ordered_files_container">
-						<ul id="file_order" class="file-list"></ul>
-					</div>
-					<input
-						type="hidden"
-						name="ordered_files"
-						id="ordered_files"
-					/><br /><br />
-
-					<div id="button-container">
-						<button class="submit_button" type="button" onclick="handleMerge()">
-							Merge Files
-						</button>
-						<button class="submit_button" type="reset" onclick="resetPage()">
-							Clear All
-						</button>
-					</div>
-				</div> -->
 		</form>
 		{% with messages = get_flashed_messages() %} {% if messages %} {% for
 		message in messages %}
@@ -170,7 +146,6 @@
 					},
 				});
 
-				// for problem of having commas in file names
 				const orderedFiles = Array.from(
 					document.querySelectorAll("#file_order li")
 				)
@@ -230,14 +205,6 @@
 
 			function resetPage() {
 				window.location.reload();
-				// const fileOrderContainer = document.getElementById(
-				// 	"file_order_container"
-				// );
-				// fileOrderContainer.classList.add("hidden");
-				// document.getElementById("file_order").innerHTML = "";
-				// document.getElementById("ordered_files").value = "";
-				// clearFlashMessages();
-				// updateFileList();
 			}
 		</script>
 	</body>

@@ -49,7 +49,6 @@ h1 {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	/* background-color: cornflowerblue; */
 }
 /* Hide the default file input button */
 .file-upload input[type="file"] {
@@ -123,7 +122,6 @@ h1 {
 	width: 100%;
 	box-sizing: border-box;
 	justify-content: space-around;
-	/* background-color: yellowgreen; */
 }
 .submit_button {
 	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
