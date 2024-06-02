@@ -119,6 +119,7 @@ def index():
         try:
             merged_pdf_bytesio = process_files(ordered_files)
             return send_file(merged_pdf_bytesio, as_attachment=True, download_name=f'{applicant_name}.pdf')
+        
         except ValueError as e:
             flash(str(e))
             return redirect(url_for('index'))

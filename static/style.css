@@ -1,40 +1,48 @@
 body {
-	margin: 0;
-	padding: 0;
-	display: flex;
-	/* justify-content: center; Horizontally center the container */
-	align-items: center; /* Vertically center the container */
-	flex-direction: column;
-	/* width: 50vw; */
-	/* background-color: peachpuff; */
 	margin: 20px;
-	padding: 40px 20px; /* Optional: padding inside the container */
-	display: flex;
-	align-items: center; /* Vertically center the container */
-	flex-direction: column;
+	padding: 20px 10px;
 	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	background-color: #001f5f;
+}
+.container {
+	width: 80vw;
+	padding: 40px 0px;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	background-color: #fbfbea;
+	box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
 }
 h1 {
 	margin: 5px;
 }
 #caption {
 	margin: 0;
+	font-weight: 400;
 }
-
+.instructions {
+	margin-top: 20px;
+}
+.instructions li {
+	padding: 2px;
+}
 #applicant_name {
-	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-	/* background-color: aquamarine; */
 	margin: 0 10px;
 	padding: 5px;
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 	border-radius: 4px;
 	border: 1px solid darkslategrey;
+	background-color: #fdfdef;
 }
 .bottom_container {
 	width: 100%;
 }
 #upload-form {
 	margin: 40px;
-	margin-bottom: 20px;
+	margin-bottom: 0px;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -70,11 +78,11 @@ h1 {
 	display: flex;
 	align-items: center;
 }
-/* Style the custom button */
+
 .custom-file-upload {
+	padding: 5px 10px;
 	border: 1px solid #ccc;
 	display: inline-block;
-	padding: 5px 10px;
 	cursor: pointer;
 	background-color: #f0f0f0;
 	border-radius: 4px;
@@ -90,7 +98,7 @@ h1 {
 .file-list li {
 	margin: 5px 0;
 	padding: 10px;
-	background-color: lightblue;
+	background-color: #bfe4ff;
 	cursor: move;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 	display: flex;
@@ -98,6 +106,9 @@ h1 {
 	justify-content: space-between;
 	overflow: hidden;
 	border-radius: 4px;
+}
+.file-list li:hover {
+	background-color: #84bcf1;
 }
 
 .file-name {
@@ -108,10 +119,10 @@ h1 {
 }
 
 .delete-button {
+	padding: 5px 10px;
 	display: inline-block;
 	color: white;
 	border: none;
-	padding: 5px 10px;
 	cursor: pointer;
 	border-radius: 4px;
 	vertical-align: middle;
@@ -124,19 +135,26 @@ h1 {
 	justify-content: space-around;
 }
 .submit_button {
+	margin: 0 5px;
+	padding: 5px 10px;
 	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 	font-size: 15px;
-	padding: 5px 10px;
 	border: 1px solid #ccc;
 	cursor: pointer;
 	background-color: #f0f0f0;
 	border-radius: 4px;
-	margin: 0 5px;
+	color: #001f5f;
 }
 .submit_button:hover {
 	background-color: #e0e0e0;
 }
 
+#success-message {
+	display: none;
+	color: #001f5f;
+	font-size: 16px;
+	font-weight: bold;
+}
 .hidden {
 	display: none;
 }

@@ -11,85 +11,119 @@
 		/>
 	</head>
 	<body>
-		<h1>STITCH IT!</h1>
-		<p id="caption" style="font-size: 20px; font-style: italic">
-			Seamless Merging, Limitless Possibilities
-		</p>
+		<div class="container">
+			<h1>STITCH IT!</h1>
+			<p id="caption" style="font-size: 20px; font-style: italic">
+				Seamless Merging, Limitless Possibilities
+			</p>
 
-		<form method="post" enctype="multipart/form-data" id="upload-form">
-			<div class="top-container">
-				<label for="applicant_name">Applicant Name:</label>
-				<input
-					type="text"
-					id="applicant_name"
-					name="applicant_name"
-					placeholder="Enter Applicant Name"
-					onchange="clearFlashMessages()"
-				/><br /><br />
+			<div class="instructions">
+				<p>Follow these steps to upload and stitch your files:</p>
+				<ol>
+					<li>
+						Enter the applicant's name in the input box provided. This will be
+						used to name the merged file.
+					</li>
+					<li>
+						Click the "Choose Files" button to upload your files (.png, .jpeg,
+						.jpg, .pdf). You can upload multiple files at once.
+					</li>
+					<li>
+						Once your files have been uploaded, drag and drop the files to order
+						them.
+					</li>
+					<li>Click the "Merge Files" button to stitch your files.</li>
+					<li>
+						Wait for the processing to be completed; the stitched file will
+						automatically be downloaded.
+					</li>
+				</ol>
+			</div>
 
-				<div class="upload_container">
-					<label for="uploaded_files">Upload Files:</label>
-					<div class="file-upload">
-						<label
-							for="uploaded_files"
-							class="custom-file-upload"
-							id="file-upload-label"
-						>
-							Choose Files
-						</label>
-						<input
-							type="file"
-							id="uploaded_files"
-							name="uploaded_files"
-							multiple
-							accept=".png,.jpg,.jpeg,.docx,.pdf"
-							onchange="updateFileList()"
-						/>
+			<form method="post" enctype="multipart/form-data" id="upload-form">
+				<div class="top-container">
+					<label for="applicant_name">Applicant Name:</label>
+					<input
+						type="text"
+						id="applicant_name"
+						name="applicant_name"
+						placeholder="Enter Applicant Name"
+						onchange="clearFlashMessages()"
+					/><br /><br />
+
+					<div class="upload_container">
+						<label for="uploaded_files">Upload Files:</label>
+						<div class="file-upload">
+							<label
+								for="uploaded_files"
+								class="custom-file-upload"
+								id="file-upload-label"
+							>
+								Choose Files
+							</label>
+							<input
+								type="file"
+								id="uploaded_files"
+								name="uploaded_files"
+								multiple
+								accept=".png,.jpg,.jpeg,.docx,.pdf"
+								onchange="updateFileList()"
+							/>
+						</div>
+						<div id="file-count"></div>
 					</div>
-					<div id="file-count"></div>
 				</div>
+
+				<br /><br />
+				<div class="bottom-container">
+					<div id="file_order_container" class="hidden">
+						<label for="file_order">Order of Files:</label>
+					</div>
+					<div class="ordered_files_container">
+						<ul id="file_order" class="file-list"></ul>
+					</div>
+					<input type="hidden" name="ordered_files" id="ordered_files" /><br />
+
+					<div id="button-container">
+						<button
+							id="merge_button"
+							class="submit_button hidden"
+							type="button"
+							onclick="handleMerge()"
+						>
+							Merge Files
+						</button>
+						<button
+							id="clear_button"
+							class="submit_button hidden"
+							type="reset"
+							onclick="resetPage()"
+						>
+							Clear All
+						</button>
+					</div>
+				</div>
+			</form>
+
+			<div id="feedback" style="margin-top: 20px"></div>
+			<div id="success-message">
+				Congratulations, your files have been merged and downloaded!
 			</div>
 
-			<br /><br />
-			<div class="bottom-container">
-				<div id="file_order_container" class="hidden">
-					<label for="file_order">Order of Files:</label>
-				</div>
-				<div class="ordered_files_container">
-					<ul id="file_order" class="file-list"></ul>
-				</div>
-				<input
-					type="hidden"
-					name="ordered_files"
-					id="ordered_files"
-				/><br /><br />
-
-				<div id="button-container">
-					<button
-						id="merge_button"
-						class="submit_button hidden"
-						type="button"
-						onclick="handleMerge()"
-					>
-						Merge Files
-					</button>
-					<button
-						id="clear_button"
-						class="submit_button hidden"
-						type="reset"
-						onclick="resetPage()"
-					>
-						Clear All
-					</button>
-				</div>
-			</div>
-		</form>
-		{% with messages = get_flashed_messages() %} {% if messages %} {% for
-		message in messages %}
-		<p id="flash-messages">{{ message }}</p>
-		{% endfor %} {% endif %} {% endwith %}
+			{% with messages = get_flashed_messages() %} {% if messages %} {% for
+			message in messages %}
+			<p id="flash-messages">{{ message }}</p>
+			{% endfor %} {% endif %} {% endwith %}
+		</div>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
 		<script>
+			document
+				.getElementById("applicant_name")
+				.addEventListener("keydown", function (event) {
+					if (event.key === "Enter") {
+						event.preventDefault(); // Prevent form submission on Enter key
+					}
+				});
 			function updateFileList() {
 				const fileInput = document.getElementById("uploaded_files");
 				const fileOrderList = document.getElementById("file_order");
@@ -175,7 +209,7 @@
 				orderedFilesInput.value = orderedFiles.join("|||");
 			}
 
-			function handleMerge() {
+			async function handleMerge() {
 				const applicantName = document.getElementById("applicant_name").value;
 				const fileInput = document.getElementById("uploaded_files");
 
@@ -189,7 +223,37 @@
 					return;
 				}
 
-				document.getElementById("upload-form").submit();
+				const formData = new FormData(document.getElementById("upload-form"));
+
+				document.getElementById("feedback").innerText = "Processing...";
+
+				try {
+					const response = await fetch("/", {
+						method: "POST",
+						body: formData,
+					});
+
+					if (!response.ok) {
+						throw new Error("Network response is facing issues");
+					}
+
+					const blob = await response.blob();
+					const url = window.URL.createObjectURL(blob);
+					const a = document.createElement("a");
+					a.style.display = "none";
+					a.href = url;
+					a.download = `${applicantName}.pdf`;
+					document.body.appendChild(a);
+					a.click();
+					window.URL.revokeObjectURL(url);
+					document.getElementById("success-message").style.display = "block";
+					document.getElementById("feedback").innerText = "";
+				} catch (error) {
+					alert(
+						"There was a problem with your merge request: " + error.message
+					);
+					document.getElementById("feedback").innerText = "";
+				}
 			}
 
 			function clearFlashMessages() {
