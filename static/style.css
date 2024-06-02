@@ -24,6 +24,8 @@ h1 {
 #caption {
 	margin: 0;
 	font-weight: 400;
+	font-size: 20px;
+	font-style: italic;
 }
 .instructions {
 	margin-top: 20px;

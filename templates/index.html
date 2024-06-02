@@ -13,9 +13,7 @@
 	<body>
 		<div class="container">
 			<h1>STITCH IT!</h1>
-			<p id="caption" style="font-size: 20px; font-style: italic">
-				Seamless Merging, Limitless Possibilities
-			</p>
+			<p id="caption">Seamless Merging, Limitless Possibilities</p>
 
 			<div class="instructions">
 				<p>Follow these steps to upload and stitch your files:</p>
@@ -124,6 +122,7 @@
 						event.preventDefault(); // Prevent form submission on Enter key
 					}
 				});
+
 			function updateFileList() {
 				const fileInput = document.getElementById("uploaded_files");
 				const fileOrderList = document.getElementById("file-order");
