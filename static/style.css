@@ -1,3 +1,4 @@
+/* Overall Styling */
 body {
 	margin: 20px;
 	padding: 20px 10px;
@@ -5,11 +6,12 @@ body {
 	display: flex;
 	align-items: center;
 	flex-direction: column;
+	color: #001f5f;
 	background-color: #001f5f;
 }
 .container {
-	width: 80vw;
 	padding: 40px 0px;
+	width: 80vw;
 	display: flex;
 	align-items: center;
 	flex-direction: column;
@@ -29,17 +31,6 @@ h1 {
 .instructions li {
 	padding: 2px;
 }
-#applicant_name {
-	margin: 0 10px;
-	padding: 5px;
-	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-	border-radius: 4px;
-	border: 1px solid darkslategrey;
-	background-color: #fdfdef;
-}
-.bottom_container {
-	width: 100%;
-}
 #upload-form {
 	margin: 40px;
 	margin-bottom: 0px;
@@ -48,37 +39,28 @@ h1 {
 	justify-content: center;
 	align-items: center;
 }
-#file_order_container.hidden {
+.hidden {
 	display: none;
 }
-#file_order_container {
-	width: 500px;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
+
+/* Top Container Styling */
+#applicant-name {
+	margin: 0 10px;
+	padding: 5px;
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	border-radius: 4px;
+	border: 1px solid darkslategrey;
+	background-color: #fdfdef;
 }
-/* Hide the default file input button */
 .file-upload input[type="file"] {
 	display: none;
 }
-
 .file-upload {
 	margin: 0 10px;
 }
-
 #file-upload-label {
 	font-size: smaller;
 }
-#file-count {
-	font-size: smaller;
-}
-
-.upload_container {
-	display: flex;
-	align-items: center;
-}
-
 .custom-file-upload {
 	padding: 5px 10px;
 	border: 1px solid #ccc;
@@ -87,14 +69,31 @@ h1 {
 	background-color: #f0f0f0;
 	border-radius: 4px;
 }
-
 .custom-file-upload:hover {
 	background-color: #e0e0e0;
 }
-#file_order {
-	padding: 0 5px;
+#file-count {
+	font-size: smaller;
+}
+.upload-container {
+	display: flex;
+	align-items: center;
 }
 
+/* Bottom Container (File Ordering) Styling */
+#file-order-container.hidden {
+	display: none;
+}
+#file-order-container {
+	width: 500px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+#file-order {
+	padding: 0 5px;
+}
 .file-list li {
 	margin: 5px 0;
 	padding: 10px;
@@ -110,31 +109,33 @@ h1 {
 .file-list li:hover {
 	background-color: #84bcf1;
 }
-
 .file-name {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	margin-right: 10px;
 }
-
-.delete-button {
+.delete-btn {
+	margin-left: 10px;
 	padding: 5px 10px;
 	display: inline-block;
-	color: white;
 	border: none;
 	cursor: pointer;
 	border-radius: 4px;
 	vertical-align: middle;
 }
+.delete-btn:hover {
+	background-color: rgb(185, 185, 185);
+}
 
+/* Submit Buttons Styling */
 #button-container {
 	display: flex;
 	width: 100%;
 	box-sizing: border-box;
 	justify-content: space-around;
 }
-.submit_button {
+.submit-button {
 	margin: 0 5px;
 	padding: 5px 10px;
 	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -145,16 +146,12 @@ h1 {
 	border-radius: 4px;
 	color: #001f5f;
 }
-.submit_button:hover {
+.submit-button:hover {
 	background-color: #e0e0e0;
 }
-
 #success-message {
 	display: none;
 	color: #001f5f;
 	font-size: 16px;
 	font-weight: bold;
-}
-.hidden {
-	display: none;
 }

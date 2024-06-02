@@ -42,16 +42,16 @@
 
 			<form method="post" enctype="multipart/form-data" id="upload-form">
 				<div class="top-container">
-					<label for="applicant_name">Applicant Name:</label>
+					<label for="applicant-name">Applicant Name:</label>
 					<input
 						type="text"
-						id="applicant_name"
-						name="applicant_name"
+						id="applicant-name"
+						name="applicant-name"
 						placeholder="Enter Applicant Name"
 						onchange="clearFlashMessages()"
 					/><br /><br />
 
-					<div class="upload_container">
+					<div class="upload-container">
 						<label for="uploaded_files">Upload Files:</label>
 						<div class="file-upload">
 							<label
@@ -76,18 +76,18 @@
 
 				<br /><br />
 				<div class="bottom-container">
-					<div id="file_order_container" class="hidden">
-						<label for="file_order">Order of Files:</label>
+					<div id="file-order-container" class="hidden">
+						<label for="file-order">Order of Files:</label>
 					</div>
 					<div class="ordered_files_container">
-						<ul id="file_order" class="file-list"></ul>
+						<ul id="file-order" class="file-list"></ul>
 					</div>
 					<input type="hidden" name="ordered_files" id="ordered_files" /><br />
 
 					<div id="button-container">
 						<button
 							id="merge_button"
-							class="submit_button hidden"
+							class="submit-button hidden"
 							type="button"
 							onclick="handleMerge()"
 						>
@@ -95,7 +95,7 @@
 						</button>
 						<button
 							id="clear_button"
-							class="submit_button hidden"
+							class="submit-button hidden"
 							type="reset"
 							onclick="resetPage()"
 						>
@@ -118,7 +118,7 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
 		<script>
 			document
-				.getElementById("applicant_name")
+				.getElementById("applicant-name")
 				.addEventListener("keydown", function (event) {
 					if (event.key === "Enter") {
 						event.preventDefault(); // Prevent form submission on Enter key
@@ -126,9 +126,9 @@
 				});
 			function updateFileList() {
 				const fileInput = document.getElementById("uploaded_files");
-				const fileOrderList = document.getElementById("file_order");
+				const fileOrderList = document.getElementById("file-order");
 				const fileOrderContainer = document.getElementById(
-					"file_order_container"
+					"file-order-container"
 				);
 				const mergeButton = document.getElementById("merge_button");
 				const clearButton = document.getElementById("clear_button");
@@ -164,7 +164,7 @@
 					li.textContent = fileInput.files[i].name;
 
 					const deleteBtn = document.createElement("button");
-					deleteBtn.textContent = "X";
+					deleteBtn.textContent = "x";
 					deleteBtn.classList.add("delete-btn");
 					deleteBtn.onclick = function () {
 						fileInput.files = removeFileFromFileList(fileInput.files, i);
@@ -198,7 +198,7 @@
 			}
 
 			function updateOrderedFilesInput() {
-				const fileOrderList = document.getElementById("file_order");
+				const fileOrderList = document.getElementById("file-order");
 				const orderedFilesInput = document.getElementById("ordered_files");
 				const orderedFiles = [];
 				for (let i = 0; i < fileOrderList.children.length; i++) {
@@ -210,7 +210,7 @@
 			}
 
 			async function handleMerge() {
-				const applicantName = document.getElementById("applicant_name").value;
+				const applicantName = document.getElementById("applicant-name").value;
 				const fileInput = document.getElementById("uploaded_files");
 
 				if (!applicantName) {
