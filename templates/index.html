@@ -176,9 +176,13 @@
 					deleteBtn.textContent = "x";
 					deleteBtn.classList.add("delete-btn");
 					deleteBtn.onclick = function () {
-						fileInput.files = removeFileFromFileList(fileInput.files, i);
+						fileInput.files = removeFileFromFileList(
+							fileInput.files,
+							li.textContent.slice(0, -1)
+						);
+
 						li.remove();
-						updateFileList();
+						updateOrderedFilesInput();
 
 						document.getElementById("success-message").classList.add("hidden");
 
@@ -189,7 +193,6 @@
 						let numFilesLeft = 0;
 
 						if (orderedFilesList !== "") {
-							console.log("reached here");
 							numFilesLeft = orderedFilesList.split("|||").length;
 						}
 
@@ -223,10 +226,10 @@
 				updateOrderedFilesInput();
 			}
 
-			function removeFileFromFileList(fileList, index) {
+			function removeFileFromFileList(fileList, filename) {
 				const dt = new DataTransfer();
 				for (let i = 0; i < fileList.length; i++) {
-					if (i !== index) {
+					if (fileList[i].name !== filename) {
 						dt.items.add(fileList[i]);
 					}
 				}
