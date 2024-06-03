@@ -26,9 +26,9 @@ def process_files(uploaded_files):
             file_pdf_bytesio = resize_pdf(BytesIO(file_bytes))
             merged_pdf.append(file_pdf_bytesio)
         elif file_extension == "":
-            raise ValueError("No Uploaded Files Found.")
+            raise ValueError("No uploaded files found.")
         else:
-            raise ValueError("Unsupported File Type, File Type: " + file_extension)
+            raise ValueError("Unsupported file type for the following file: " + file_extension)
 
     merged_pdf_bytesio = BytesIO()
     merged_pdf.write(merged_pdf_bytesio)
@@ -108,17 +108,18 @@ def resize_pdf(pdf_bytesio):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        applicant_name = request.form.get('applicant_name')
-        uploaded_files = request.files.getlist('uploaded_files')
+        applicant_name = request.form.get('applicant-name')
+        uploaded_files = request.files.getlist('uploaded-files')
 
         files_dict = {uploaded_file.filename: uploaded_file for uploaded_file in uploaded_files}
-        ordered_file_names = request.form.get('ordered_files').split('|||')
+        ordered_file_names = request.form.get('ordered-files').split('|||')
 
         ordered_files = [files_dict[name] for name in ordered_file_names]
 
         try:
             merged_pdf_bytesio = process_files(ordered_files)
             return send_file(merged_pdf_bytesio, as_attachment=True, download_name=f'{applicant_name}.pdf')
+        
         except ValueError as e:
             flash(str(e))
             return redirect(url_for('index'))
