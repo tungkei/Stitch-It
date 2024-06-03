@@ -113,7 +113,9 @@
 			<p id="flash-messages">{{ message }}</p>
 			{% endfor %} {% endif %} {% endwith %}
 		</div>
+
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+
 		<script>
 			document
 				.getElementById("applicant-name")
@@ -146,8 +148,8 @@
 				}
 				fileOrderList.innerHTML = "";
 
-				// Only show bottom section if files have been uploaded
-				if (fileInput.files.length > 0) {
+				// Only show submit buttons if files have been uploaded
+				if (files.length > 0) {
 					fileOrderContainer.classList.remove("hidden");
 					mergeButton.classList.remove("hidden");
 					clearButton.classList.remove("hidden");
@@ -169,16 +171,36 @@
 						fileInput.files = removeFileFromFileList(fileInput.files, i);
 						li.remove();
 						updateOrderedFilesInput();
-						// updateFileList();
+
+						// Update file count and hide submit buttons if necessary
+						var orderedFilesList =
+							document.getElementById("ordered-files").value;
+						if (orderedFilesList === "") {
+							var numFilesLeft = 0;
+						} else {
+							var numFilesLeft = orderedFilesList.split("|||").length;
+						}
+
+						var countDisplay = document.getElementById("file-count");
+						if (numFilesLeft === 0) {
+							countDisplay.textContent = "";
+						} else {
+							var outputText =
+								numFilesLeft === 1 ? " file chosen" : " files chosen";
+							countDisplay.textContent = numFilesLeft + outputText;
+						}
+
+						if (numFilesLeft === 0) {
+							fileOrderContainer.classList.add("hidden");
+							mergeButton.classList.add("hidden");
+							clearButton.classList.add("hidden");
+						}
 					};
 
 					li.appendChild(deleteBtn);
 					li.setAttribute("data-file", fileInput.files[i].name);
 					fileOrderList.appendChild(li);
 				}
-
-				console.log("over here");
-				console.log(fileOrderList);
 
 				Sortable.create(fileOrderList, {
 					onUpdate: function () {
