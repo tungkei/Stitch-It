@@ -39,7 +39,7 @@
 			</div>
 
 			<form method="post" enctype="multipart/form-data" id="upload-form">
-				<div class="top-container">
+				<div id="top-container">
 					<label for="applicant-name">Applicant Name:</label>
 					<input
 						type="text"
@@ -50,10 +50,10 @@
 					/><br /><br />
 
 					<div class="upload-container">
-						<label for="uploaded_files">Upload Files:</label>
+						<label for="uploaded-files">Upload Files:</label>
 						<div class="file-upload">
 							<label
-								for="uploaded_files"
+								for="uploaded-files"
 								class="custom-file-upload"
 								id="file-upload-label"
 							>
@@ -61,8 +61,8 @@
 							</label>
 							<input
 								type="file"
-								id="uploaded_files"
-								name="uploaded_files"
+								id="uploaded-files"
+								name="uploaded-files"
 								multiple
 								accept=".png,.jpg,.jpeg,.docx,.pdf"
 								onchange="updateFileList()"
@@ -73,18 +73,18 @@
 				</div>
 
 				<br /><br />
-				<div class="bottom-container">
+				<div id="bottom-container">
 					<div id="file-order-container" class="hidden">
 						<label for="file-order">Order of Files:</label>
 					</div>
-					<div class="ordered_files_container">
+					<div class="ordered-files-container">
 						<ul id="file-order" class="file-list"></ul>
 					</div>
-					<input type="hidden" name="ordered_files" id="ordered_files" /><br />
+					<input type="hidden" name="ordered-files" id="ordered-files" /><br />
 
 					<div id="button-container">
 						<button
-							id="merge_button"
+							id="merge-button"
 							class="submit-button hidden"
 							type="button"
 							onclick="handleMerge()"
@@ -92,7 +92,7 @@
 							Merge Files
 						</button>
 						<button
-							id="clear_button"
+							id="clear-button"
 							class="submit-button hidden"
 							type="reset"
 							onclick="resetPage()"
@@ -124,15 +124,15 @@
 				});
 
 			function updateFileList() {
-				const fileInput = document.getElementById("uploaded_files");
+				const fileInput = document.getElementById("uploaded-files");
 				const fileOrderList = document.getElementById("file-order");
 				const fileOrderContainer = document.getElementById(
 					"file-order-container"
 				);
-				const mergeButton = document.getElementById("merge_button");
-				const clearButton = document.getElementById("clear_button");
+				const mergeButton = document.getElementById("merge-button");
+				const clearButton = document.getElementById("clear-button");
 
-				const orderedFilesInput = document.getElementById("ordered_files");
+				const orderedFilesInput = document.getElementById("ordered-files");
 
 				// Display number of files uploaded
 				var countDisplay = document.getElementById("file-count");
@@ -169,6 +169,7 @@
 						fileInput.files = removeFileFromFileList(fileInput.files, i);
 						li.remove();
 						updateOrderedFilesInput();
+						// updateFileList();
 					};
 
 					li.appendChild(deleteBtn);
@@ -176,8 +177,11 @@
 					fileOrderList.appendChild(li);
 				}
 
+				console.log("over here");
+				console.log(fileOrderList);
+
 				Sortable.create(fileOrderList, {
-					onEnd: function () {
+					onUpdate: function () {
 						updateOrderedFilesInput();
 					},
 				});
@@ -192,13 +196,12 @@
 						dt.items.add(fileList[i]);
 					}
 				}
-				updateFileList();
 				return dt.files;
 			}
 
 			function updateOrderedFilesInput() {
 				const fileOrderList = document.getElementById("file-order");
-				const orderedFilesInput = document.getElementById("ordered_files");
+				const orderedFilesInput = document.getElementById("ordered-files");
 				const orderedFiles = [];
 				for (let i = 0; i < fileOrderList.children.length; i++) {
 					orderedFiles.push(
@@ -210,7 +213,7 @@
 
 			async function handleMerge() {
 				const applicantName = document.getElementById("applicant-name").value;
-				const fileInput = document.getElementById("uploaded_files");
+				const fileInput = document.getElementById("uploaded-files");
 
 				if (!applicantName) {
 					alert("Please provide the applicant's name.");

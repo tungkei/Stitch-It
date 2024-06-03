@@ -83,11 +83,16 @@ h1 {
 }
 
 /* Bottom Container (File Ordering) Styling */
+#bottom-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
 #file-order-container.hidden {
 	display: none;
 }
 #file-order-container {
-	width: 500px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;

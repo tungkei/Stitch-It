@@ -108,11 +108,11 @@ def resize_pdf(pdf_bytesio):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        applicant_name = request.form.get('applicant_name')
-        uploaded_files = request.files.getlist('uploaded_files')
+        applicant_name = request.form.get('applicant-name')
+        uploaded_files = request.files.getlist('uploaded-files')
 
         files_dict = {uploaded_file.filename: uploaded_file for uploaded_file in uploaded_files}
-        ordered_file_names = request.form.get('ordered_files').split('|||')
+        ordered_file_names = request.form.get('ordered-files').split('|||')
 
         ordered_files = [files_dict[name] for name in ordered_file_names]
 
