@@ -26,9 +26,13 @@ def process_files(uploaded_files):
             file_pdf_bytesio = convert_docx_to_pdf(file_bytes)
             merged_pdf.append(file_pdf_bytesio)
         elif file_extension == ".pdf":
-            if PdfReader(BytesIO(file_bytes)).is_encrypted:
-                raise ValueError("Please Decrypt The Following PDF File Before Merging: " + file_name + file_extension)
-            merged_pdf.append(BytesIO(file_bytes))
+            try:
+                pdf_reader = PdfReader(BytesIO(file_bytes))
+                if pdf_reader.is_encrypted:
+                    raise ValueError("Please Decrypt The Following PDF File Before Merging: " + file_name + file_extension)
+                merged_pdf.append(BytesIO(file_bytes))
+            except Exception as e:
+                raise e
         elif file_extension == "":
             raise ValueError("No uploaded files found.")
         else:
