@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, send_file, redirect, url_for, flash
+from flask import Flask, request, render_template, send_file, jsonify
 from io import BytesIO
 import os
 import img2pdf
@@ -27,16 +27,11 @@ def process_files(uploaded_files):
             merged_pdf.append(file_pdf_bytesio)
         elif file_extension == ".pdf":
             try:
-                pdf_reader = PdfReader(BytesIO(file_bytes))
-                if pdf_reader.is_encrypted:
-                    raise ValueError("Please Decrypt The Following PDF File Before Merging: " + file_name + file_extension)
-                merged_pdf.append(BytesIO(file_bytes))
+                file_bytesio = BytesIO(file_bytes)
+                PdfReader(file_bytesio)
+                merged_pdf.append(file_bytesio)
             except Exception as e:
-                raise e
-        elif file_extension == "":
-            raise ValueError("No uploaded files found.")
-        else:
-            raise ValueError("Unsupported file type for the following file: " + file_extension)
+                raise ValueError("Please decrypt the following PDF file before merging:\n" + file_name + file_extension)
 
     merged_pdf_bytesio = BytesIO()
     merged_pdf.write(merged_pdf_bytesio)
@@ -150,8 +145,8 @@ def index():
             return send_file(merged_pdf_bytesio, as_attachment=True, download_name=f'{applicant_name}.pdf')
         
         except ValueError as e:
-            flash(str(e))
-            return redirect(url_for('index'))
+            error_message = str(e)
+            return jsonify({'error': error_message}), 400
 
     return render_template('index.html')
 

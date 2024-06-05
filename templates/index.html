@@ -114,6 +114,9 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
 
 		<script>
+			if (error_msg) {
+				alert(error_msg);
+			}
 			// Event Listeners
 			const applicantNameInput = document.getElementById("applicant-name");
 			applicantNameInput.addEventListener("keydown", function (event) {
@@ -274,7 +277,10 @@
 					});
 
 					if (!response.ok) {
-						throw new Error("Network response is facing issues");
+						const errorData = await response.json();
+						const errorMessage =
+							errorData.error || "There was an error with your request.";
+						throw new Error(errorMessage);
 					}
 
 					const blob = await response.blob();
@@ -289,9 +295,7 @@
 					document.getElementById("success-message").classList.remove("hidden");
 					document.getElementById("feedback").innerText = "";
 				} catch (error) {
-					alert(
-						"There was a problem with your merge request: " + error.message
-					);
+					alert(error.message);
 					document.getElementById("feedback").innerText = "";
 				}
 			}
