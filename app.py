@@ -4,7 +4,8 @@ import os
 import img2pdf
 from pypdf import PdfReader, PdfWriter, Transformation, PaperSize
 import tempfile
-import subprocess
+import pythoncom
+from docx2pdf import convert
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
@@ -48,34 +49,20 @@ def convert_img_to_pdf(img_bytes):
     return img_pdf_bytesio
 
 def convert_docx_to_pdf(docx_bytes):
+    pythoncom.CoInitialize()
+
     with tempfile.NamedTemporaryFile(delete=False, suffix='.docx') as temp_docx:
         temp_docx.write(docx_bytes)
         temp_docx_path = temp_docx.name
-    # Create temporary file for output PDF
-    with tempfile.NamedTemporaryFile(suffix='.pdf', delete=False) as temp_output_file:
-        temp_output_file_path = temp_output_file.name
-
-    command = [
-        'C:\\Program Files\\LibreOffice\\program\\soffice.exe',
-        '--headless', 
-        '--convert-to', 'pdf', 
-        '--outdir', os.path.dirname(temp_output_file_path),  
-        temp_docx_path
-    ]    
-    
-    subprocess.run(command)
-
-    with open(temp_docx_path.replace('.docx', '.pdf'), 'rb') as temp_output_file:
-        output_bytesio = BytesIO(temp_output_file.read())
-
-    output_bytesio.seek(0)
-    
-    # Delete temporary files
+    temp_pdf_path = temp_docx_path.replace('.docx', '.pdf')
+    convert(temp_docx_path, temp_pdf_path)
+    with open(temp_pdf_path, 'rb') as temp_pdf:
+        docx_pdf_bytesio = BytesIO(temp_pdf.read())
     os.unlink(temp_docx_path)
-    os.unlink(temp_docx_path.replace('.docx', '.pdf'))
-    os.unlink(temp_output_file_path)
-    return output_bytesio
-
+    os.unlink(temp_pdf_path)
+    docx_pdf_bytesio.seek(0)  
+    return docx_pdf_bytesio
+ 
 def resize_pdf(pdf_bytesio):
     new_dimensions = get_new_page_dimensions(pdf_bytesio)
     resized_pdf_bytesio = BytesIO()
