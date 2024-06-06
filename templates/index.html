@@ -114,15 +114,22 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
 
 		<script>
-			if (error_msg) {
-				alert(error_msg);
-			}
 			// Event Listeners
-			const applicantNameInput = document.getElementById("applicant-name");
-			applicantNameInput.addEventListener("keydown", function (event) {
-				if (event.key === "Enter") {
-					event.preventDefault(); // Prevent form submission on Enter key
-				}
+			document.addEventListener("DOMContentLoaded", function () {
+				const inputBox = document.getElementById("applicant-name");
+				const form = document.getElementById("upload-form");
+
+				inputBox.addEventListener("keypress", function (event) {
+					if (event.key === "Enter") {
+						event.preventDefault(); // Prevent form submission
+					}
+				});
+
+				form.addEventListener("submit", function (event) {
+					// Form submission logic here
+					alert("Form submitted!");
+					event.preventDefault(); // Prevent default form submission for demonstration
+				});
 			});
 
 			const orderedFilesInput = document.getElementById("file-order");
@@ -134,6 +141,7 @@
 				successMessage.classList.add("hidden");
 			});
 
+			// Functions
 			function updateFileList() {
 				const fileInput = document.getElementById("uploaded-files");
 				const fileOrderList = document.getElementById("file-order");
