@@ -31,7 +31,10 @@ def process_files(uploaded_files):
                 PdfReader(file_bytesio)
                 merged_pdf.append(file_bytesio)
             except Exception as e:
-                raise ValueError("Please decrypt the following PDF file before merging:\n" + file_name + file_extension)
+                if ("File has not been decrypted" in str(e)):
+                    raise ValueError("Please decrypt the following PDF file before merging:\n" + file_name + file_extension)
+                else:
+                    raise e
 
     merged_pdf_bytesio = BytesIO()
     merged_pdf.write(merged_pdf_bytesio)
