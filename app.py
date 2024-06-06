@@ -151,10 +151,12 @@ def index():
         try:
             merged_pdf_bytesio = process_files(ordered_files)
             return send_file(merged_pdf_bytesio, as_attachment=True, download_name=f'{applicant_name}.pdf')
-        
         except ValueError as e:
             error_message = str(e)
             return jsonify({'error': error_message}), 400
+        except Exception as e:
+            error_message = str(e)
+            return jsonify({'error': 'Internal server error:\n' + error_message}), 500
 
     return render_template('index.html')
 
