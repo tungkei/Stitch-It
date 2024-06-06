@@ -6,9 +6,14 @@ from pypdf import PdfReader, PdfWriter, Transformation, PaperSize
 import tempfile
 import pythoncom
 from docx2pdf import convert
+from waitress import serve
+import webbrowser
+import logging
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
+
+logging.getLogger("img2pdf").setLevel(logging.ERROR)
 
 a4_width, a4_height = (PaperSize.A4.width, PaperSize.A4.height)
 a4_aspect_ratio = a4_width / a4_height
@@ -154,4 +159,8 @@ def index():
     return render_template('index.html')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    print("Server is running on http://127.0.0.1:5000\n")
+    print("Press Ctrl + C to stop the server after you have finished using the Stitch It app.\n")
+    print("This console will be closed automatically once the server is stopped.\n")
+    webbrowser.open('http://127.0.0.1:5000')
+    serve(app, host='0.0.0.0', port=5000)
