@@ -11,14 +11,14 @@ datas += copy_metadata('flask')
 datas += copy_metadata('docx2pdf')
 datas += copy_metadata('comtypes')
 datas += copy_metadata('cryptography')
-datas += copy_metadata('waitress)
+datas += copy_metadata('waitress')
 
 a = Analysis(
     ['app.py'],
     pathex=[],
     binaries=[],
     datas=datas,
-    hiddenimports=['flask', 'img2pdf', 'pypdf', 'docx2pdf', 'comtypes', 'cryptography', 'waitress],
+    hiddenimports=['flask', 'img2pdf', 'pypdf', 'docx2pdf', 'comtypes', 'cryptography', 'waitress'],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
