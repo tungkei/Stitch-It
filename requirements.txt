@@ -4,3 +4,4 @@ pypdf==4.2.0
 docx2pdf==0.1.8
 comtypes==1.4.3
 cryptography==42.0.8
+waitress==3.0.0
